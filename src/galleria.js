@@ -659,16 +659,40 @@ var G = window.Galleria = Base.extend({
         var w = 0;
         var h = 0;
         
+        var page = null;
+        
         for( var i=0; this.data[i]; i++ ) {
             var thumb;
             if (o.thumbnails === true) {
                 thumb = new Picture(i);
                 var src = this.data[i].thumb || this.data[i].image;
                 
-                this.get( 'thumbnails' ).appendChild( thumb.elem );
+                if (this.options.carousel_paginate) {
+                    p_w = this.options.carousel_paginate_wide;
+                    p_t = this.options.carousel_paginate_tall;
+                    
+                    if (!(i % (p_t * p_w))) {
+                        // Every [ page-tall * page-wide ] thumbs, create a new page.
+                        page = $('<div class="galleria-thumbnails-page"></div>');
+                        $(this.get( 'thumbnails' )).append( page )
+                    }
+                    page.append( thumb.elem )
+                    w = this.getStyle(thumb.elem, 'width', true);
+                    h = this.getStyle(thumb.elem, 'height', true);
+                    
+                    page.css({overflow:'auto', float:'left'})
+                    
+                    if (!(i % p_w)) {
+                        this.setStyle(thumb.elem, { clear:'left'});
+                    }
+                                        
+                } else { // No pagination
+                    this.get( 'thumbnails' ).appendChild( thumb.elem );
+                    w = this.getStyle(thumb.elem, 'width', true);
+                    h = this.getStyle(thumb.elem, 'height', true);
+                }
                 
-                w = this.getStyle(thumb.elem, 'width', true);
-                h = this.getStyle(thumb.elem, 'height', true);
+                
                 
                 // grab & reset size for smoother thumbnail loads
                 if (o.thumb_fit && o.thum_crop !== true) {
