@@ -531,6 +531,9 @@ var G = window.Galleria = Base.extend({
             carousel_follow: true,
             carousel_speed: 400,
             carousel_steps: 'auto',
+            carousel_paginate: false,
+            carousel_paginate_tall: 1,
+            carousel_paginate_wide: 0, // unlimited
             data_config : function( elem ) { return {}; },
             data_image_selector: 'img',
             data_source: this.options.target,
@@ -785,6 +788,12 @@ var G = window.Galleria = Base.extend({
                 h = Math.max(h, thumb.image.height)
             }
         });
+        if (this.options.carousel_paginate && (this.options.carousel_paginate_wide > 0)) {
+            p_w = this.options.carousel_paginate_wide;
+            p_t = this.options.carousel_paginate_tall;
+            w = parseInt(w / p_t) + 1;
+            h = h * p_t;
+        }
         this.toggleClass(this.get('thumbnails-container'), 'galleria-carousel', w > this.stageWidth);
         this.setStyle(this.get('thumbnails-list'), {
             overflow:'hidden',
