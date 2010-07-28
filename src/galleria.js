@@ -820,7 +820,7 @@ var G = window.Galleria = Base.extend({
             if (thumb.ready) {
                 w += thumb.outerWidth || this.width(thumb.elem, true);
                 if (will_paginate) {
-                    hooks[i+1] = ((Math.ceil(i / thumbs_per_page) - 1) * page_width);
+                    hooks[i+1] = ((Math.ceil((i + 3) / thumbs_per_page) - 1) * page_width);
                 } else {
                     hooks[i+1] = w;
                 }
@@ -912,10 +912,15 @@ var G = window.Galleria = Base.extend({
         };
         this.listen(c.right, 'click', this.proxy(function(e) {
             if (this.options.carousel_steps == 'auto') {
-                for (var i = c.current; i<c.hooks.length; i++) {
-                    if (c.hooks[i] - c.hooks[c.current] > c.width) {
-                        c.set(i-2);
-                        break;
+                if (this.options.carousel_paginate && (this.options.carousel_paginate_wide > 0)) {
+                    var thumbs_per_page = this.options.carousel_paginate_wide * this.options.carousel_paginate_tall;
+                    c.set(c.current + thumbs_per_page)
+                } else { // no pagination
+                    for (var i = c.current; i<c.hooks.length; i++) {
+                        if (c.hooks[i] - c.hooks[c.current] > c.width) {
+                            c.set(i-2);
+                            break;
+                        }
                     }
                 }
             } else {
