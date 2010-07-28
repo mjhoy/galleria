@@ -805,23 +805,29 @@ var G = window.Galleria = Base.extend({
         var w = 0;
         var h = 0;
         var hooks = [0];
+        
+        // pagination vars
+        // TODO: cleanup
+        var will_paginate = this.options.carousel_paginate && (this.options.carousel_paginate_wide > 0)
+        var p_w = this.options.carousel_paginate_wide;
+        var p_t = this.options.carousel_paginate_tall;
+        var thumb_width = this.thumbnails[0].outerWidth;
+        var page_width = thumb_width * p_w;
+        var thumbs_per_page = p_w * p_t;
+        var total_width = (Math.ceil(this.thumbnails.length / thumbs_per_page)) * page_width;
+        
         this.loop(this.thumbnails, function(thumb,i) {
             if (thumb.ready) {
                 w += thumb.outerWidth || this.width(thumb.elem, true);
-                hooks[i+1] = w;
+                if (will_paginate) {
+                    hooks[i+1] = ((Math.ceil(i / thumbs_per_page) - 1) * page_width);
+                } else {
+                    hooks[i+1] = w;
+                }
                 h = Math.max(h, thumb.image.height)
             }
         });
-        if (this.options.carousel_paginate && (this.options.carousel_paginate_wide > 0)) {
-            // TODO: cleanup
-            p_w = this.options.carousel_paginate_wide;
-            p_t = this.options.carousel_paginate_tall;
-            thumb_width = this.thumbnails[0].outerWidth;
-            page_width = thumb_width * p_w;
-            thumbs_per_page = p_w * p_t;
-            total_width = (Math.ceil(this.thumbnails.length / thumbs_per_page)) * page_width;
-            //page_width = parseInt(w / p_w) + 1;
-            //w = parseInt(w / p_t) + 1;
+        if (will_paginate) {            
             w = total_width;
             h = h * p_t;
             $(this.get('thumbnails')).find('.galleria-thumbnails-page').css({width:page_width});
