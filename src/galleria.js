@@ -813,22 +813,23 @@ var G = window.Galleria = Base.extend({
             }
         });
         if (this.options.carousel_paginate && (this.options.carousel_paginate_wide > 0)) {
+            // TODO: cleanup
             p_w = this.options.carousel_paginate_wide;
             p_t = this.options.carousel_paginate_tall;
-						thumb_width = this.thumbnails[0].outerWidth;
-						page_width = thumb_width * p_w;
-						thumbs_per_page = p_w * p_t;
-						total_width = (Math.ceil(this.thumbnails.length / thumbs_per_page)) * page_width;
-						//page_width = parseInt(w / p_w) + 1;
+            thumb_width = this.thumbnails[0].outerWidth;
+            page_width = thumb_width * p_w;
+            thumbs_per_page = p_w * p_t;
+            total_width = (Math.ceil(this.thumbnails.length / thumbs_per_page)) * page_width;
+            //page_width = parseInt(w / p_w) + 1;
             //w = parseInt(w / p_t) + 1;
-						w = total_width;
+            w = total_width;
             h = h * p_t;
-						$(this.get('thumbnails')).find('.galleria-thumbnails-page').css({width:page_width});
-						this.setStyle(this.get('thumbnails-list'), {
-							width: page_width
-						})
+            $(this.get('thumbnails')).find('.galleria-thumbnails-page').css({width:page_width});
+            this.setStyle(this.get('thumbnails-list'), {
+                width: page_width
+            })
         }
-				
+        
         this.toggleClass(this.get('thumbnails-container'), 'galleria-carousel', w > this.stageWidth);
         this.setStyle(this.get('thumbnails-list'), {
             overflow:'hidden',
