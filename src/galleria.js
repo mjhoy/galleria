@@ -898,7 +898,7 @@ var G = window.Galleria = Base.extend({
             max: 0,
             setClasses: this.proxy(function() {
                 this.toggleClass( c.left, 'disabled', !c.current );
-                this.toggleClass( c.right, 'disabled', c.hooks[c.current] + c.width > c.max );
+                this.toggleClass( c.right, 'disabled', c.hooks[c.current] + c.width >= c.max );
             }),
             animate: this.proxy(function(to) {
                 c.setClasses();
