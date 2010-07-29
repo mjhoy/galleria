@@ -820,7 +820,7 @@ var G = window.Galleria = Base.extend({
             if (thumb.ready) {
                 w += thumb.outerWidth || this.width(thumb.elem, true);
                 if (will_paginate) {
-                    hooks[i+1] = ((Math.ceil((i + 3) / thumbs_per_page) - 1) * page_width);
+                    hooks[i+1] = ((Math.ceil((i + 2) / thumbs_per_page) - 1) * page_width);
                 } else {
                     hooks[i+1] = w;
                 }
@@ -880,6 +880,10 @@ var G = window.Galleria = Base.extend({
                 
                 return i-1;
             },
+            followPage: function(i, thumbs_per_page) {
+                var page = (Math.ceil((i + 1) / thumbs_per_page) - 1) * thumbs_per_page
+                c.set(page);
+            },
             follow: function(i) {
                 if (i == 0 || i == c.hooks.length-2) {
                     c.set(i);
@@ -929,13 +933,22 @@ var G = window.Galleria = Base.extend({
         }));
         this.listen(c.left, 'click', this.proxy(function(e) {
             if (this.options.carousel_steps == 'auto') {
-                for (var i = c.current; i>=0; i--) {
-                    if (c.hooks[c.current] - c.hooks[i] > c.width) {
-                        c.set(i+2);
-                        break;
-                    } else if (i == 0) {
-                        c.set(0);
-                        break;
+                if (this.options.carousel_paginate && (this.options.carousel_paginate_wide > 0)) {
+                    var thumbs_per_page = this.options.carousel_paginate_wide * this.options.carousel_paginate_tall;
+                    if (c.current - thumbs_per_page < thumbs_per_page) {
+                        c.set(0)
+                    } else {
+                        c.set(c.current - thumbs_per_page)
+                    }
+                } else { 
+                    for (var i = c.current; i>=0; i--) {
+                        if (c.hooks[c.current] - c.hooks[i] > c.width) {
+                            c.set(i+2);
+                            break;
+                        } else if (i == 0) {
+                            c.set(0);
+                            break;
+                        }
                     }
                 }
             } else {
@@ -1082,7 +1095,12 @@ var G = window.Galleria = Base.extend({
         var index = args[0];
         var rewind = !!args[1];
         if (o.carousel && this.carousel && o.carousel_follow) {
-            this.carousel.follow(index);
+            if (o.carousel_paginate) {
+                var thumbs_per_page = o.carousel_paginate_tall * o.carousel_paginate_wide;
+                this.carousel.followPage(index, thumbs_per_page);
+            } else {
+                this.carousel.follow(index);
+            }
         }
         
         var src = this.getData(index).image;
