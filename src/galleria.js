@@ -824,7 +824,7 @@ var G = window.Galleria = Base.extend({
                 } else {
                     hooks[i+1] = w;
                 }
-                h = Math.max(h, thumb.image.height)
+                h = Math.max(h, thumb.outerHeight)
             }
         });
         if (will_paginate) {            
