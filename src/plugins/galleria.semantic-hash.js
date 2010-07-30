@@ -19,7 +19,9 @@
           change: function (value) {
           },
           value: function (value) {
-              window.location.replace('#' + value.match(/[^\/]+\.jpg/i))
+              if (!(navigator.userAgent.match(/iPad/i))) {
+                  window.location.replace('#' + value.match(/[^\/]+\.jpg/i))
+              }
           },
           load: function(fn) {
               var src = window.location.hash.replace(/\#/,'');
