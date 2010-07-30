@@ -587,6 +587,19 @@ var G = window.Galleria = Base.extend({
                         this.show(val, undefined, true);
                     }
                 }));
+            } else if (G.SemanticHash) {
+                // TODO: figure out how to completely offload work to the plugin.
+                G.SemanticHash.load(this.proxy(function(e) {
+                    var src = window.location.hash.replace(/\#/,'');
+                    var i_index = 0;
+                    $.each(this.thumbnails, function(index, value) {
+                        if (value.image.src.match(src)) {
+                            i_index = index;
+                            return false;
+                        }
+                    });
+                    o.show = i_index;  
+                }));
             }
 
             G.theme.init.call(this, o);
@@ -1130,6 +1143,12 @@ var G = window.Galleria = Base.extend({
             }
             this.playCheck();
         });
+        
+        if (!G.History && G.SemanticHash) {
+            // TODO: figure out how to completely offload work to the plugin.
+            G.SemanticHash.value(src);
+        }
+        
         if (typeof o.preload == 'number' && o.preload > 0) {
             var p,n = this.getNext();
             try {
