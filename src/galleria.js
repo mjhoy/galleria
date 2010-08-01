@@ -369,7 +369,6 @@ var Picture = Base.extend({
     },
     
     load: function(src, callback) {
-        if (PAN.debug) { G.log('Picture load() called.'); }
         callback = this.proxy( callback );
         this.elem.innerHTML = '';
         this.image = this.make( src );
@@ -1356,7 +1355,6 @@ var G = window.Galleria = Base.extend({
             ) || o.data_type == 'json' || o.data_source.constructor == Array ) {
             this.data = o.data_source;
             this.trigger( G.DATA );
-            
         } else { // assume selector
             var images = jQuery(o.data_source).find(o.data_image_selector);
             var getData = this.proxy(function( elem ) {
