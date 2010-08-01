@@ -6,6 +6,10 @@
  * Licensed under the MIT license.
  */
 
+PAN = {
+    debug: true
+};
+
 (function() {
 
 var initializing = false,
@@ -524,6 +528,7 @@ var G = window.Galleria = Base.extend({
             G.raise('No target.');
         }
         
+        if (PAN.debug) { G.log('G init() called.'); }
         this.options = this.mix(G.theme.defaults, this.options);
         this.options = this.mix({
             autoplay: false,
@@ -636,6 +641,7 @@ var G = window.Galleria = Base.extend({
         return this;
     },
     run : function() {
+        if (PAN.debug) { G.log('G run() called.'); }
         var o = this.options;
         if (!this.data.length) {
             G.raise('Data is empty.');
