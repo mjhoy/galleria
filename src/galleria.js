@@ -941,7 +941,10 @@ var G = window.Galleria = Base.extend({
             if (this.options.carousel_steps == 'auto') {
                 if (this.options.carousel_paginate && (this.options.carousel_paginate_wide > 0)) {
                     var thumbs_per_page = this.options.carousel_paginate_wide * this.options.carousel_paginate_tall;
-                    c.set(c.current + thumbs_per_page)
+                    var next = c.current + thumbs_per_page;
+                    if (next < this.thumbnails.length) {
+                        c.set(c.current + thumbs_per_page)
+                    }
                 } else { // no pagination
                     for (var i = c.current; i<c.hooks.length; i++) {
                         if (c.hooks[i] - c.hooks[c.current] > c.width) {
@@ -958,7 +961,7 @@ var G = window.Galleria = Base.extend({
             if (this.options.carousel_steps == 'auto') {
                 if (this.options.carousel_paginate && (this.options.carousel_paginate_wide > 0)) {
                     var thumbs_per_page = this.options.carousel_paginate_wide * this.options.carousel_paginate_tall;
-                    if (c.current - thumbs_per_page < thumbs_per_page) {
+                    if ((c.current - thumbs_per_page) < thumbs_per_page) {
                         c.set(0)
                     } else {
                         c.set(c.current - thumbs_per_page)
