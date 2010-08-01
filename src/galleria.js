@@ -6,11 +6,6 @@
  * Licensed under the MIT license.
  */
 
-PAN = {
-    debug: false,
-    verb: false
-};
-
 (function() {
 
 var initializing = false,
@@ -529,7 +524,6 @@ var G = window.Galleria = Base.extend({
             G.raise('No target.');
         }
         
-        if (PAN.debug && PAN.verb) { G.log('G init() called.'); }
         this.options = this.mix(G.theme.defaults, this.options);
         this.options = this.mix({
             autoplay: false,
@@ -642,7 +636,6 @@ var G = window.Galleria = Base.extend({
         return this;
     },
     run : function() {
-        if (PAN.debug && PAN.verb) { G.log('G run() called.'); }
         var o = this.options;
         if (!this.data.length) {
             G.raise('Data is empty.');
@@ -823,7 +816,6 @@ var G = window.Galleria = Base.extend({
     
     parseCarousel : function(e) {
 
-        if (PAN.debug && PAN.verb) { G.log('G parseCarousel() called.'); }
         var w = 0;
         var h = 0;
         var hooks = [0];
@@ -879,7 +871,6 @@ var G = window.Galleria = Base.extend({
     },
     
     initCarousel : function() {
-        if (PAN.debug && PAN.verb) { G.log('G initCarousel() called.'); }
         var c = this.carousel = {
             right: this.get('thumb-nav-right'),
             left: this.get('thumb-nav-left'),
@@ -1116,7 +1107,6 @@ var G = window.Galleria = Base.extend({
     },
     
     showImage : function() {
-        if (PAN.debug && PAN.verb) { G.log('G showImage() called.'); }
         var o = this.options;
         var args = this.queue[0];
         var index = args[0];
@@ -1348,7 +1338,6 @@ var G = window.Galleria = Base.extend({
     },
     
     load : function() {
-        if (PAN.debug) { G.log('G load() called.'); }
         var loaded = 0;
         var o = this.options;
         if (
@@ -1361,7 +1350,6 @@ var G = window.Galleria = Base.extend({
             this.trigger( G.DATA );
         } else { // assume selector
             var images = jQuery(o.data_source).find(o.data_image_selector);
-            if (PAN.debug) { G.log(images.length); }
             var getData = this.proxy(function( elem ) {
                 var i,j,anchor = elem.parentNode;
                 if (anchor && anchor.nodeName == 'A') {
