@@ -369,6 +369,7 @@ var Picture = Base.extend({
     },
     
     load: function(src, callback) {
+        if (PAN.debug) { G.log('Picture load() called.'); }
         callback = this.proxy( callback );
         this.elem.innerHTML = '';
         this.image = this.make( src );
@@ -669,7 +670,7 @@ var G = window.Galleria = Base.extend({
         
         if (o.carousel) {
             // try the carousel on each thumb load
-            this.bind(G.THUMBNAIL, this.parseCarousel);
+            this.bind(G.LOADFINISH, this.parseCarousel);
         }
         
         this.build();
@@ -821,6 +822,8 @@ var G = window.Galleria = Base.extend({
     },
     
     parseCarousel : function(e) {
+
+        if (PAN.debug) { G.log('G parseCarousel() called.'); }
         var w = 0;
         var h = 0;
         var hooks = [0];
@@ -876,6 +879,7 @@ var G = window.Galleria = Base.extend({
     },
     
     initCarousel : function() {
+        if (PAN.debug) { G.log('G initCarousel() called.'); }
         var c = this.carousel = {
             right: this.get('thumb-nav-right'),
             left: this.get('thumb-nav-left'),
@@ -1109,6 +1113,7 @@ var G = window.Galleria = Base.extend({
     },
     
     showImage : function() {
+        if (PAN.debug) { G.log('G showImage() called.'); }
         var o = this.options;
         var args = this.queue[0];
         var index = args[0];
@@ -1340,6 +1345,7 @@ var G = window.Galleria = Base.extend({
     },
     
     load : function() {
+        if (PAN.debug) { G.log('G load() called.'); }
         var loaded = 0;
         var o = this.options;
         if (
