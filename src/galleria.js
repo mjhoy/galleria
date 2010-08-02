@@ -663,7 +663,7 @@ var G = window.Galleria = Base.extend({
         
         if (o.carousel) {
             // try the carousel on each thumb load
-            this.bind(G.LOADFINISH, this.parseCarousel);
+            this.bind(G.THUMBNAIL, this.parseCarousel);
         }
         
         this.build();
